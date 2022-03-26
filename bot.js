@@ -1,3 +1,5 @@
+var fs = require('fs');
+
 const { Client, Intents, User, Base, ClientUser, Guild } = require("discord.js");
 const config = require("./config.json")
 const Discord = require("discord.js")
@@ -20,16 +22,33 @@ client.on("guildDelete", guild =>{
   client.user.setActivity(`Estou em ${client.guilds.size} servidores`)
 })
 
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
 client.on("messageCreate", (message) => {
     if (!message.content.startsWith(config.prefix)) return;
     if (message.content.startsWith(`${config.prefix}ping`)) {
       message.channel.send("pong!");
     }
+    if (message.content.startsWith(`${config.prefix}bye`)) {
+      message.channel.send("byeee! :( ");
+    }
     if (message.content.startsWith(`${config.prefix}help`)) {
-      message.channel.send("Para falar comigo façam ! e depois escrevam algo!\nAlguns dos meus comandos são!!\n!ping\n!roberto\n!novidades\n!foo\n!hi\n!pota\n!rocket\n!tempo\nO resto é segredo ;)");
+      message.channel.send("Para falar comigo façam ! e depois escrevam algo!\nAlguns dos meus comandos são!!\n!ping\n!roberto\n!novidades\n!foo\n!hi\n!bye\n!pota\n!rocket\n!tempo\nO resto é segredo ;)");
     }
     if (message.content.startsWith(`${config.prefix}roberto`)) {
       message.channel.send("Às ordens!!");
+    }
+    if (message.content.startsWith(`${config.prefix}meme`)) {
+      let files = fs.readdirSync(__dirname+'/memes/')
+      let chosenFile = files[Math.floor(Math.random() * files.length)] 
+      
+      message.channel.send({
+        files:['./memes/'+chosenFile]
+      })
     }
     if (message.content.startsWith(`${config.prefix}novidades`)) {
       message.channel.send("Ja consigo identificar quem entra no servidor\n e sei qual o tempo para hoje! :D :)");
