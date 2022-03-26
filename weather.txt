@@ -1,0 +1,12 @@
+2022-03-26 18:10:22
+Calheta Max: 15° Min: 12°
+Camara de Lobos Max: 16° Min: 13°
+Funchal Max: 18° Min: 15°
+Machico Max: 18° Min: 15°
+Ponta do Sol Max: 17° Min: 14°
+Porto Moniz Max: 17° Min: 15°
+Ribeira Brava Max: 15° Min: 13°
+Santa Cruz Max: 17° Min: 14°
+Santana Max: 14° Min: 11°
+São Vicente Max: 16° Min: 14°
+Vila Baleira Max: 18° Min: 14°
