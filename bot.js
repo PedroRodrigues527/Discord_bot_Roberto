@@ -7,7 +7,7 @@ const client = new Discord.Client({
 
 client.on("ready", ()=>{
   console.log(`BOT online! ${client.user.tag}`)
-  client.user.setActivity('Estou sendo programado ainda :( \n ainda nao sou crescido o suficiente');
+  client.user.setActivity('AJUDA?? Usa !help para ajudar nos comandos.\nEstou sendo programado ainda :( \n ainda nao sou crescido o suficiente');
 })
 
 client.on("guildCreate", guild =>{
@@ -25,11 +25,14 @@ client.on("messageCreate", (message) => {
     if (message.content.startsWith(`${config.prefix}ping`)) {
       message.channel.send("pong!");
     }
+    if (message.content.startsWith(`${config.prefix}help`)) {
+      message.channel.send("Para falar comigo façam ! e depois escrevam algo!\nAlguns dos meus comandos são!!\n!ping\n!roberto\n!novidades\n!foo\n!hi\n!pota\n!rocket\n!tempo\nO resto é segredo ;)");
+    }
     if (message.content.startsWith(`${config.prefix}roberto`)) {
       message.channel.send("Às ordens!!");
     }
     if (message.content.startsWith(`${config.prefix}novidades`)) {
-      message.channel.send("Ja consigo identificar quem entra no servidor :)");
+      message.channel.send("Ja consigo identificar quem entra no servidor\n e sei qual o tempo para hoje! :D :)");
     }
     if (message.content.startsWith(`${config.prefix}foo`)) {
       message.channel.send("bar!");
@@ -56,7 +59,7 @@ client.on("messageCreate", (message) => {
     message.channel.send(":( vou me desligar");
     }
     if (message.content.startsWith(`${config.prefix}merda`)) {
-      message.channel.send("whyy you are meann to meee");
+      message.channel.send(`whyy you are meann to meee ${message.author.username}`);
     }
     if (message.content.startsWith(`${config.prefix}ataca`)) {
         message.channel.send("magoar pessoas é muito mau!");
@@ -64,6 +67,10 @@ client.on("messageCreate", (message) => {
     if (message.content.startsWith(`${config.prefix}tempo`)) {
       today = new Date();
       message.channel.send(String(today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()));
+      message.channel.send("Tempo de hoje!\n")
+      message.channel.send({
+        files:['weather.txt']
+      })
     }
 });
 
