@@ -6,7 +6,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "chatbot",
+    "freediscordchatbot",
+    "freechatbot",
+    "cleverbot",
+    "cleverbotdiscord",
+    "cleverbotdiscordfree",
+    "clever",
+    "discord.js"
+   ],
   "author": "",
   "license": "ISC",
   "dependencies": {
