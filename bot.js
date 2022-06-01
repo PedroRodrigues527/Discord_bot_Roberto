@@ -6,7 +6,6 @@ const subReddits = [
   "r/dadjokes/",
   "r/HistoryMemes/",
   "r/starterpacks/"
-
 ];
 
 
