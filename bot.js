@@ -1,4 +1,14 @@
+var axios = require('axios');
 var fs = require('fs');
+
+const subReddits = [
+  "r/memes/",
+  "r/dadjokes/",
+  "r/HistoryMemes/",
+  "r/starterpacks/"
+
+];
+
 
 const { Client, Intents, User, Base, ClientUser, Guild } = require("discord.js");
 const config = require("./config.json")
@@ -28,7 +38,16 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-client.on("messageCreate", (message) => {
+function randomInt(min, max) {
+  return (Math.floor(Math.random() * (max - min))) + min;
+}
+
+function getRandomPost(posts) {
+  const randomIndex = randomInt(0, posts.length);
+  return posts[randomIndex].data;
+}
+
+client.on("messageCreate", async(message) => {
     if (!message.content.startsWith(config.prefix)) return;
     if (message.content.startsWith(`${config.prefix}ping`)) {
       message.channel.send("pong!");
@@ -42,6 +61,7 @@ client.on("messageCreate", (message) => {
     if (message.content.startsWith(`${config.prefix}roberto`)) {
       message.channel.send("Às ordens!!");
     }
+    /*
     if (message.content.startsWith(`${config.prefix}meme`)) {
       let files = fs.readdirSync(__dirname+'/memes/')
       let chosenFile = files[Math.floor(Math.random() * files.length)] 
@@ -49,6 +69,19 @@ client.on("messageCreate", (message) => {
       message.channel.send({
         files:['./memes/'+chosenFile]
       })
+    }*/
+    if (message.content.startsWith(`${config.prefix}meme`)) {
+      const randomIndex = randomInt(0, subReddits.length);
+      axios
+        .get(`https://reddit.com/${subReddits[randomIndex]}/.json`)
+        .then((resp) => {
+          const {
+            title,
+            url,
+            subreddit_name_prefixed: subreddit
+          } = getRandomPost(resp.data.data.children);
+          message.channel.send(`${title}\n${url}\n from ${subreddit}`);
+        })
     }
     if (message.content.startsWith(`${config.prefix}novidades`)) {
       message.channel.send("Ja consigo identificar quem entra no servidor\n e sei qual o tempo para hoje! :D :)");
@@ -82,6 +115,12 @@ client.on("messageCreate", (message) => {
     }
     if (message.content.startsWith(`${config.prefix}ataca`)) {
         message.channel.send("magoar pessoas é muito mau!");
+    }
+    if (message.content.startsWith(`${config.prefix}ofendido`)) {
+    	let files = fs.readdirSync(__dirname+'/videos/')
+	message.channel.send({
+		files:['./videos/'+'of.mp4']
+	})
     }
     if (message.content.startsWith(`${config.prefix}tempo`)) {
       today = new Date();
