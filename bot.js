@@ -5,9 +5,11 @@ const subReddits = [
   "r/starterpacks/",
   "r/jokes"
 ];
+var testmessages = ["Um dia tomarei conta do mundo... ", 
+"pobres mortais voces não sabeis o que libertaram...", 
+"no fim ganharei eu", "destruirei vos muhahaha",
+"I will destroy you in the most beautiful way possible and when I leave you will finally understand why storms are named after people"]
 
-
-var testmessages = ["Um dia tomarei conta do mundo... ", "pobres mortais voces não sabeis o que libertaram...", "no fim ganharei eu", "destruirei vos muhahaha","I will destroy you in the most beautiful way possible and when I leave you will finally understand why storms are named after people"]
 var quotes = ["If you can stay calm, while all around you is chaos…then you probably haven’t completely understood the seriousness of the situation.",
 "Doing a job RIGHT the first time gets the job done. Doing the job WRONG fourteen times gives you job security",
 "Artificial Intelligence is no match for Natural Stupidity","Believe nothing you hear, and only one half that you see.",
@@ -18,9 +20,11 @@ var quotes = ["If you can stay calm, while all around you is chaos…then you pr
 "Despite my ghoulish reputation, I really have the heart of a small boy. I keep it in a jar on my desk.",
 "The last man on Earth sat alone in a room. There was a knock on the door… it was me!!! HAHAHAHA",
 "Oh yes, there will be blood."]
+
 var axios = require('axios');
 var fs = require('fs');
 const fetch = require("node-fetch");
+var cron = require("cron");
 
 const { Client, Intents, User, Base, ClientUser, Guild } = require("discord.js");
 const config = require("./config.json")
@@ -29,12 +33,36 @@ const client = new Discord.Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, "GUILDS", "GUILD_MESSAGES","GUILD_MEMBERS"]
 });
 
+const GUILD_ID = 'SERVER_ID'
+const CHANNEL_ID = 'CHANNEL_ID'
 
 
-
-client.on("ready", ()=>{
+client.on("ready", (message)=>{
   console.log(`BOT online! ${client.user.tag}`)
   client.user.setActivity('AJUDA?? Usa !help para ajudar nos comandos.\nEstou sendo programado ainda :( \n ainda nao sou crescido o suficiente');
+  let scheduledMessageBomDia = new cron.CronJob('00 00 09 * * *', () => { // SS:MM:HH
+       const guild = client.guilds.cache.get(GUILD_ID);
+       const channel = guild.channels.cache.get(CHANNEL_ID);
+       channel.send('Bom diaa minha gente! <3 ');
+  });
+  scheduledMessageBomDia.start()
+
+  let scheduledMessageAlmoco = new cron.CronJob('20 30 12 * * *', () => {
+        const guild = client.guilds.cache.get(GUILD_ID);
+        const channel = guild.channels.cache.get(CHANNEL_ID);
+        channel.send('Ta na hora de comer papinha!!!!');
+      });
+          
+  scheduledMessageAlmoco.start()
+
+  let scheduledMessageNoite = new cron.CronJob('20 55 21 * * *', () => {
+        const guild = client.guilds.cache.get(GUILD_ID);
+        const channel = guild.channels.cache.get(CHANNEL_ID);
+        channel.send('Ta na hora da naninha!!!!');
+      });
+          
+  scheduledMessageNoite.start()
+
 })
 
 client.on("guildCreate", guild =>{
@@ -57,21 +85,16 @@ function getRandomPost(posts) {
   return posts[randomIndex].data;
 }
 
-
 client.on("messageCreate", async(message) => {
     let teste = randomInt(0, 99);
+    
     if(teste == 1 ){
       message.channel.send(quotes[randomInt(0, quotes.length)]);
     }
-  
-    if (!message.content.startsWith(config.prefix)) return;
+    
+    
     if (message.channel.name == "chatbot") {
       if (message.author.bot) return;
-      //message.content = message.content.replace(/@(everyone)/gi, "everyone").replace(/@(here)/gi, "here");
-      if (message.content.includes(`@`)) {
-        return message.channel.send(`**:x: Please dont mention anyone**`);
-      }
-      message.channel.startTyping();
       if (!message.content) return message.channel.send("Please say something.");
         fetch(`https://api.affiliateplus.xyz/api/chatbot?message=${encodeURIComponent(message.content)}&botname=${client.user.username}&ownername=DEVELOPER_NAME`)
           .then(res => res.json())
@@ -151,10 +174,9 @@ client.on("messageCreate", async(message) => {
       }
 });
 
-const welcomeChannelId = "694980762021265458"
 
 client.on("guildMemberAdd", (member)=>{
-  member.guild.channels.cache.get(welcomeChannelId).send(`<@${member.id}> Bem vindee para este server linde <3!!! :D`)
+  member.guild.channels.cache.get(CHANNEL_ID).send(`<@${member.id}> Bem vindee para este server linde <3!!! :D`)
 })
 
 client.login(config.token);
