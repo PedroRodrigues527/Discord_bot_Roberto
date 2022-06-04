@@ -168,9 +168,16 @@ client.on("messageCreate", async(message) => {
         today = new Date();
         message.channel.send(String(today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()));
         message.channel.send("Tempo de hoje!\n")
-        message.channel.send({
-          files:['weather.txt']
-        })
+        const python = spawn('python3', ['weather.py']);
+        python.stdout.on('data', function (data) {
+          console.log('Pipe data from python script ...');
+          dataToSend = data.toString();
+        });
+        python.on('close', (code) => {
+          message.channel.send({
+            files:['weather.txt']
+          })
+        });
       }
 });
 
