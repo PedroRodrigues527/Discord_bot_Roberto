@@ -155,6 +155,21 @@ client.on("messageCreate", async(message) => {
       if (message.content.startsWith(`${config.prefix}fraco`)) {
         message.channel.send("sou mais forte que tu!");
       }
+      if (message.content.includes(`${config.prefix}pergunta`)) {
+        let choice = randomInt(0, 100)
+        if(choice % 5 == 0){
+          message.channel.send("possivelmente");
+        }
+        else if(choice % 3 == 0){
+          message.channel.send("Possivelmente");
+        }
+        else if(choice % 2 == 0){
+          message.channel.send("Sim");
+        }
+        else if(choice % 2 != 0){
+          message.channel.send("Não");
+        }
+      }
       if (message.content.startsWith(`${config.prefix}feio`)) {
       message.channel.send(":( vou me desligar");
       }
