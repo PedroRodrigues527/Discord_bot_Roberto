@@ -85,6 +85,28 @@ function getRandomPost(posts) {
   return posts[randomIndex].data;
 }
 
+async function getUserChoices(){
+  
+  //How many |
+  let char = 0;
+  let words = [];
+  let single_word = "";
+  let arrayPosition = 0;
+  for(char; char < user_choices.length; char++){
+    if(user_choices[char]!="|"){
+      single_word = single_word + user_choices[char]
+    }
+    else if( user_choices[char]=="|" ){
+      words[arrayPosition] = single_word;
+      arrayPosition++
+      single_word = "";
+    }
+  }
+
+  choice_chosen = words[Math.floor(Math.random() * words.length)]
+
+}
+
 client.on("messageCreate", async(message) => {
     let teste = randomInt(0, 99);
     
@@ -154,6 +176,16 @@ client.on("messageCreate", async(message) => {
       }
       if (message.content.startsWith(`${config.prefix}fraco`)) {
         message.channel.send("sou mais forte que tu!");
+      }
+      if (message.content.includes(`${config.prefix}decide`)) {
+        //message.channel.send("sou mais forte que tu!");
+        let user_choice = message.content.substring(8,message.content.length);
+        user_choices = user_choice;
+        getUserChoices()
+
+        await getUserChoices;
+        message.channel.send(choice_chosen);
+        
       }
       if (message.content.includes(`${config.prefix}pergunta`)) {
         let choice = randomInt(0, 100)
