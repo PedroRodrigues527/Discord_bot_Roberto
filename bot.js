@@ -10,25 +10,16 @@ var testmessages = ["Um dia tomarei conta do mundo... ",
 "no fim ganharei eu", "destruirei vos muhahaha",
 "I will destroy you in the most beautiful way possible and when I leave you will finally understand why storms are named after people"]
 
-var quotes = ["If you can stay calm, while all around you is chaos…then you probably haven’t completely understood the seriousness of the situation.",
-"Doing a job RIGHT the first time gets the job done. Doing the job WRONG fourteen times gives you job security",
-"Artificial Intelligence is no match for Natural Stupidity","Believe nothing you hear, and only one half that you see.",
-"It's not the house that's haunted... it's me.","No tears please, it's a waste of good suffering.",
-"We all go a little mad sometimes.",
-"Hope not ever to see Heaven. I have come to lead you to the other shore; into eternal darkness; into fire and into ice.",
-"I’m so curious about knowing the unknown; it can be scary, but I see it as a game.", 
-"Despite my ghoulish reputation, I really have the heart of a small boy. I keep it in a jar on my desk.",
-"The last man on Earth sat alone in a room. There was a knock on the door… it was me!!! HAHAHAHA",
-"Oh yes, there will be blood."]
 
 var axios = require('axios');
 var fs = require('fs');
+const path = require('node:path');
 const fetch = require("node-fetch");
 var cron = require("cron");
 
 const { Client, Intents, User, Base, ClientUser, Guild } = require("discord.js");
 const config = require("./config.json")
-const Discord = require("discord.js")
+const Discord = require("discord.js");
 const client = new Discord.Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, "GUILDS", "GUILD_MESSAGES","GUILD_MEMBERS"]
 });
@@ -107,14 +98,12 @@ async function getUserChoices(){
 
 }
 
+const commandsPath = path.join(__dirname, 'commands');
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+
 client.on("messageCreate", async(message) => {
-    let teste = randomInt(0, 99);
-    
-    if(teste == 1 ){
-      message.channel.send(quotes[randomInt(0, quotes.length)]);
-    }
-    
-    
+
+  
     if (message.channel.name == "chatbot") {
       if (message.author.bot) return;
       if (!message.content) return message.channel.send("Please say something.");
@@ -125,22 +114,18 @@ client.on("messageCreate", async(message) => {
           });
             message.channel.stopTyping();
       }
-      if (message.content.startsWith(`${config.prefix}ping`)) {
-        message.channel.send("pong!");
+
+      for (const file of commandFiles) {
+
+        if(message.content === `${config.prefix}${file.replace(".js","")}`){
+          const response = require(`./commands/${file.replace(".js","")}`)
+
+          response.sendMessage(message)
+        }
+
       }
-      if (message.content.startsWith(`${config.prefix}bye`)) {
-        message.channel.send("byeee! :( ");
-      }
-      if (message.content.startsWith(`${config.prefix}help`)) {
-        message.channel.send("Para falar comigo façam ! e depois escrevam algo!\nAlguns dos meus comandos são!!\n!ping\n!roberto\n!novidades\n!foo\n!hi\n!bye\n!pota\n!rocket\n!tempo\nO resto é segredo ;)");
-      }
-      if (message.content.startsWith(`${config.prefix}roberto`)) {
-        message.channel.send("Às ordens!!");
-      }
-      if (message.content.startsWith(`${config.prefix}quotes`)) {
-        message.channel.send(quotes[Math.floor(Math.random() * quotes.length)]);
-      }
-      if (message.content.startsWith(`${config.prefix}meme`)) {
+
+/*       if (message.content.startsWith(`${config.prefix}meme`)) {
         if(randomInt(0, 99)==2){
           message.channel.send(testmessages[Math.floor(Math.random() * testmessages.length) ]);
         }
@@ -155,7 +140,10 @@ client.on("messageCreate", async(message) => {
             } = getRandomPost(resp.data.data.children);
             message.channel.send(`${title}\n${url}\n from ${subreddit}`);
           })
-      }
+      } */
+
+
+      /* 
       if (message.content.startsWith(`${config.prefix}novidades`)) {
         message.channel.send("Ja consigo identificar quem entra no servidor\n e sei qual o tempo para hoje! :D :)");
       }
@@ -262,7 +250,7 @@ client.on("messageCreate", async(message) => {
             files:['weather.txt']
           })
         });
-      }
+      } */
 });
 
 
