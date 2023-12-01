@@ -5,9 +5,7 @@ async function sendMessage(message) {
     Tesoura: { weakTo: "Pedra", strongTo: "Paper" },
   };
 
-  /* const response = ["Pedra", "Papel", "Tesoura"]; */
   const response = Object.keys(logic);
-
   const user_anwser = message.content.substring(5, message.content.length);
   const botResponse = response[Math.floor(Math.random() * response.length)];
 

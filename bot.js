@@ -1,11 +1,13 @@
 var fs = require("fs");
 const path = require("node:path");
 const fetch = require("node-fetch");
+const { Intents } = require("discord.js");
+const Discord = require("discord.js");
+require('dotenv').config();
 /* var cron = require("cron"); */
 
-const { Intents } = require("discord.js");
-const config = require("./config.json");
-const Discord = require("discord.js");
+const config = {token: process.env.BOT_TOKEN, prefix: process.env.PREFIX};
+
 const client = new Discord.Client({
   intents: [
     Intents.FLAGS.GUILDS,
