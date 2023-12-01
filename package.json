@@ -1,10 +1,10 @@
 {
   "name": "discord_bot",
   "version": "1.0.0",
-  "description": "",
+  "description": "Simple bot",
   "main": "bot.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm i && node bot.js"
   },
   "keywords": [
     "chatbot",
