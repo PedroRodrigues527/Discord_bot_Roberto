@@ -1,7 +1,7 @@
 var fs = require("fs");
 const path = require("node:path");
 const fetch = require("node-fetch");
-var cron = require("cron");
+/* var cron = require("cron"); */
 
 const { Intents } = require("discord.js");
 const config = require("./config.json");
