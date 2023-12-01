@@ -1,25 +1,23 @@
 async function sendMessage(message) {
-  let response = ["Pedra", "Papel", "Tesoura"];
-  let user_anwser = message.content.substring(5, message.content.length);
-  let sendResponse = response[Math.floor(Math.random() * response.length)];
-  message.channel.send(sendResponse);
-  if (user_anwser == "Pedra" && sendResponse == "Papel") {
+  const logic = {
+    Pedra: { weakTo: "Paper", strongTo: "Tesoura" },
+    Papel: { weakTo: "Tesoura", strongTo: "Pedra" },
+    Tesoura: { weakTo: "Pedra", strongTo: "Paper" },
+  };
+
+  /* const response = ["Pedra", "Papel", "Tesoura"]; */
+  const response = Object.keys(logic);
+
+  const user_anwser = message.content.substring(5, message.content.length);
+  const botResponse = response[Math.floor(Math.random() * response.length)];
+
+  message.channel.send(botResponse);
+
+  if (logic[user_anwser].strongTo === botResponse) {
     message.channel.send("I win!!! EZ");
-  } else if (user_anwser == "Pedra" && sendResponse == "Pedra") {
-    message.channel.send("...");
-  } else if (user_anwser == "Pedra" && sendResponse == "Tesoura") {
+  } else if (logic[user_anwser].weakTo === botResponse) {
     message.channel.send(":(");
-  } else if (user_anwser == "Papel" && sendResponse == "Pedra") {
-    message.channel.send(":(");
-  } else if (user_anwser == "Papel" && sendResponse == "Papel") {
-    message.channel.send("...");
-  } else if (user_anwser == "Papel" && sendResponse == "Tesoura") {
-    message.channel.send("I win!!! EZ");
-  } else if (user_anwser == "Tesoura" && sendResponse == "Papel") {
-    message.channel.send(":(");
-  } else if (user_anwser == "Tesoura" && sendResponse == "Pedra") {
-    message.channel.send("I win!!! EZ");
-  } else if (user_anwser == "Tesoura" && sendResponse == "Tesoura") {
+  }else{
     message.channel.send("...");
   }
 }
